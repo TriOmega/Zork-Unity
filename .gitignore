@@ -30,7 +30,6 @@ ExportedObj/
 .consulo/
 *.csproj
 *.unityproj
-*.sln
 *.suo
 *.tmp
 *.user
@@ -58,3 +57,4 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+/Zork.Unity/*.sln
