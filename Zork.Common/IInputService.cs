@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Zork.Common
+namespace Zork
 {
-    interface IInputService
+    public interface IInputService
     {
+        string ReadLine();
+        //event EventHandler<string> InputReceived;
     }
 }

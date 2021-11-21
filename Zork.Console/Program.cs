@@ -11,9 +11,12 @@ namespace Zork
             string gameFilename = (args.Length > 0 ? args[(int)CommandLineArguments.GameFilename] : defaultGameFilename);
 
             Game game = JsonConvert.DeserializeObject<Game>(File.ReadAllText(gameFilename));
-            game.Run();
-        }
 
+            ConsoleOutputService output = new ConsoleOutputService();
+            ConsoleInputService input = new ConsoleInputService();
+
+            game.Run(input, output);
+        }
         private enum CommandLineArguments
         {
             GameFilename = 0

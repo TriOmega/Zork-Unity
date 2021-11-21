@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Zork.Common
+namespace Zork
 {
-    interface IOutputServices
+    public interface IOutputService
     {
         void Write(object value);
 

@@ -24,6 +24,10 @@ namespace Zork
 
         private bool IsRunning { get; set; }
 
+        public IInputService Input { get; set; }
+
+        public IOutputService Output { get; set; }
+
         [JsonIgnore]
         public Dictionary<string, Command> Commands { get; private set; }
 
@@ -43,22 +47,28 @@ namespace Zork
             };
         }
 
-        public void Run()
+        public void Run(IInputService input, IOutputService output)
         {
-            Console.WriteLine(string.IsNullOrWhiteSpace(WelcomeMessage) ? "Welcome to Zork!" : WelcomeMessage);
+            Assert.IsNotNull(output);
+            Output = output;
+            
+            Assert.IsNotNull(input);
+            Input = input;
+
+            Output.WriteLine(string.IsNullOrWhiteSpace(WelcomeMessage) ? "Welcome to Zork!" : WelcomeMessage);
 
             IsRunning = true;
             Room previousRoom = null;
             while (IsRunning)
             {
-                Console.WriteLine(Player.Location);
+                Output.WriteLine(Player.Location);
                 if (previousRoom != Player.Location)
                 {
                     Look(this);
                     previousRoom = Player.Location;
                 }
 
-                Console.Write("\n> ");
+                Output.Write("\n> ");
                 string commandString = Console.ReadLine().Trim().ToUpper();
                 Command foundCommand = null;
                 foreach (Command command in Commands.Values)
@@ -76,22 +86,22 @@ namespace Zork
                 }
                 else
                 {
-                    Console.WriteLine("Unknown command.");
+                    Output.WriteLine("Unknown command.");
                 }
             }
 
-            Console.WriteLine(string.IsNullOrWhiteSpace(ExitMessage) ? "Thank you for playing!" : ExitMessage);
+            Output.WriteLine(string.IsNullOrWhiteSpace(ExitMessage) ? "Thank you for playing!" : ExitMessage);
         }
 
         private static void Move(Game game, Directions direction)
         {
             if (game.Player.Move(direction) == false)
             {
-                Console.WriteLine("The way is shut!");
+                game.Output.WriteLine("The way is shut!");
             }
         }
 
-        private static void Look(Game game) => Console.WriteLine(game.Player.Location.Description);
+        private static void Look(Game game) => game.Output.WriteLine(game.Player.Location.Description);
 
         private static void Quit(Game game) => game.IsRunning = false;
 
