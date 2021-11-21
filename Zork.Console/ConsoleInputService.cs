@@ -4,9 +4,12 @@ namespace Zork
 {
     class ConsoleInputService : IInputService
     {
-        public string ReadLine()
+        public event EventHandler<string> InputReceived;
+
+        public void ProcessInput()
         {
-            return Console.ReadLine();
+            string inputString = Console.ReadLine().Trim().ToUpper();
+            InputReceived?.Invoke(this, inputString);
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using System.IO;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.IO;
 
 namespace Zork
 {
@@ -15,7 +15,24 @@ namespace Zork
             ConsoleOutputService output = new ConsoleOutputService();
             ConsoleInputService input = new ConsoleInputService();
 
-            game.Run(input, output);
+            output.WriteLine(string.IsNullOrWhiteSpace(game.WelcomeMessage) ? "Welcome to Zork!" : game.WelcomeMessage);
+            game.Start(input, output);
+
+            Room previousRoom = null;
+            while (game.IsRunning)
+            {
+                output.WriteLine(game.Player.Location);
+                if (previousRoom != game.Player.Location)
+                {
+                    Game.Look(game);
+                    previousRoom = game.Player.Location;
+                }
+
+                output.Write("\n> ");
+                input.ProcessInput();
+            }
+
+            output.WriteLine(string.IsNullOrWhiteSpace(game.ExitMessage) ? "Thank you for playing!" : game.ExitMessage);
         }
         private enum CommandLineArguments
         {

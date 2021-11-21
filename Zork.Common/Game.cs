@@ -22,7 +22,8 @@ namespace Zork
         [JsonIgnore]
         public Player Player { get; private set; }
 
-        private bool IsRunning { get; set; }
+        [JsonIgnore]
+        public bool IsRunning { get; set; }
 
         public IInputService Input { get; set; }
 
@@ -47,50 +48,38 @@ namespace Zork
             };
         }
 
-        public void Run(IInputService input, IOutputService output)
+        public void Start(IInputService input, IOutputService output)
         {
-            Assert.IsNotNull(output);
-            Output = output;
-            
             Assert.IsNotNull(input);
             Input = input;
+            Input.InputReceived += InputReceivedHandler;
 
-            Output.WriteLine(string.IsNullOrWhiteSpace(WelcomeMessage) ? "Welcome to Zork!" : WelcomeMessage);
+            Assert.IsNotNull(output);
+            Output = output;
 
             IsRunning = true;
-            Room previousRoom = null;
-            while (IsRunning)
+        }
+
+        private void InputReceivedHandler(object sender, string commandString)
+        {
+            Command foundCommand = null;
+            foreach (Command command in Commands.Values)
             {
-                Output.WriteLine(Player.Location);
-                if (previousRoom != Player.Location)
+                if (command.Verbs.Contains(commandString))
                 {
-                    Look(this);
-                    previousRoom = Player.Location;
-                }
-
-                Output.Write("\n> ");
-                string commandString = Console.ReadLine().Trim().ToUpper();
-                Command foundCommand = null;
-                foreach (Command command in Commands.Values)
-                {
-                    if (command.Verbs.Contains(commandString))
-                    {
-                        foundCommand = command;
-                        break;
-                    }
-                }
-
-                if (foundCommand != null)
-                {
-                    foundCommand.Action(this);
-                }
-                else
-                {
-                    Output.WriteLine("Unknown command.");
+                    foundCommand = command;
+                    break;
                 }
             }
 
-            Output.WriteLine(string.IsNullOrWhiteSpace(ExitMessage) ? "Thank you for playing!" : ExitMessage);
+            if (foundCommand != null)
+            {
+                foundCommand.Action(this);
+            }
+            else
+            {
+                Output.WriteLine("Unknown command.");
+            }
         }
 
         private static void Move(Game game, Directions direction)
@@ -101,7 +90,7 @@ namespace Zork
             }
         }
 
-        private static void Look(Game game) => game.Output.WriteLine(game.Player.Location.Description);
+        public static void Look(Game game) => game.Output.WriteLine(game.Player.Location.Description);
 
         private static void Quit(Game game) => game.IsRunning = false;
 

@@ -6,7 +6,6 @@ namespace Zork
 {
     public interface IInputService
     {
-        string ReadLine();
-        //event EventHandler<string> InputReceived;
+        event EventHandler<string> InputReceived;
     }
 }
