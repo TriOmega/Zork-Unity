@@ -1,18 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
+using Zork;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        TextAsset gameTextAsset = Resources.Load<TextAsset>("Zork");
+        Game game = JsonConvert.DeserializeObject<Game>(gameTextAsset.text);
     }
 }
