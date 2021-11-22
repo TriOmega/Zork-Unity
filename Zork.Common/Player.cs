@@ -35,7 +35,7 @@ namespace Zork
             {
                 return _moves;
             }
-            private set
+            set
             {
                 if (_moves != value)
                 {

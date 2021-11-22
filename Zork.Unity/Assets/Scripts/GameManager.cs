@@ -30,11 +30,7 @@ public class GameManager : MonoBehaviour
         game.Player.ScoreChanged += OnPlayerScoreChanged;
 
         game.Start(InputService, OutputService);
-        //CurrentLocationText.text = game.Player.Location.Name;
-
-        game.Player.Move(Directions.North);
-        game.Commands["REWARD"].Action(game);
-        game.Player.Move(Directions.South);
+        CurrentLocationText.text = game.Player.Location.Name;
     }
 
     private void OnPlayerScoreChanged(object sender, int updatedScore)

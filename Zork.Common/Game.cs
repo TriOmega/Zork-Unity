@@ -45,8 +45,8 @@ namespace Zork
                 { "SOUTH", new Command("SOUTH", new string[] { "SOUTH", "S" }, game => Move(game, Directions.South)) },
                 { "EAST", new Command("EAST", new string[] { "EAST", "E"}, game => Move(game, Directions.East)) },
                 { "WEST", new Command("WEST", new string[] { "WEST", "W" }, game => Move(game, Directions.West)) },
-                { "REWARD", new Command("REWARD", new string[] { "REWARD", "MONEYBAGS", "GIMME"}, Reward) },
-                { "SCORE", new Command("SCORE", new string[] { "SCORE"}, Score) }
+                { "REWARD", new Command("REWARD", new string[] { "REWARD", "MONEYBAGS", "GIMME", "R" }, Reward) },
+                { "SCORE", new Command("SCORE", new string[] { "SCORE" }, Score) }
             };
         }
 
@@ -76,6 +76,7 @@ namespace Zork
 
             if (foundCommand != null)
             {
+                Player.Moves++;
                 foundCommand.Action(this);
             }
             else
