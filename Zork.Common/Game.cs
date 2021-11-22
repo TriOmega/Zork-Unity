@@ -45,7 +45,8 @@ namespace Zork
                 { "SOUTH", new Command("SOUTH", new string[] { "SOUTH", "S" }, game => Move(game, Directions.South)) },
                 { "EAST", new Command("EAST", new string[] { "EAST", "E"}, game => Move(game, Directions.East)) },
                 { "WEST", new Command("WEST", new string[] { "WEST", "W" }, game => Move(game, Directions.West)) },
-                { "REWARD", new Command("REWARD", new string[] { "REWARD", "MONEYBAGS", "GIMME"}, game => Reward(game)) }
+                { "REWARD", new Command("REWARD", new string[] { "REWARD", "MONEYBAGS", "GIMME"}, Reward) },
+                { "SCORE", new Command("SCORE", new string[] { "SCORE"}, Score) }
             };
         }
 
@@ -95,6 +96,11 @@ namespace Zork
         {
             game.Player.Score++;
             game.Output.WriteLine("Score increased!");
+        }
+
+        private static void Score(Game game)
+        {
+            game.Output.WriteLine($"Your score would be {game.Player.Score}, in {game.Player.Moves} move(s)");
         }
 
         public static void Look(Game game) => game.Output.WriteLine(game.Player.Location.Description);
