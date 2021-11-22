@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 
     private Game LoadedGame { get => _loadedGame; set => _loadedGame = value; }
 
-    Room previousLocation = null;
+    private Room previousLocation = null;
 
     void Start()
     {
@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
         LoadedGame.Player.ScoreChanged += OnPlayerScoreChanged;
 
         LoadedGame.Start(InputService, OutputService);
+        OutputService.WriteLine(string.IsNullOrWhiteSpace(LoadedGame.WelcomeMessage) ? "Welcome to Zork!" : LoadedGame.WelcomeMessage);
         CurrentLocationText.text = LoadedGame.Player.Location.Name;
     }
 
