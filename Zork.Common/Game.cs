@@ -76,7 +76,7 @@ namespace Zork
 
             if (foundCommand != null)
             {
-                Player.Moves++;
+                IncrementMoves();
                 foundCommand.Action(this);
             }
             else
@@ -84,6 +84,8 @@ namespace Zork
                 Output.WriteLine("Unknown command.");
             }
         }
+
+        private void IncrementMoves() => Player.Moves++;
 
         private static void Move(Game game, Directions direction)
         {

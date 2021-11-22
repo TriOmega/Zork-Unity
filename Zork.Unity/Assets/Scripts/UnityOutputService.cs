@@ -23,6 +23,5 @@ public class UnityOutputService : MonoBehaviour, IOutputService
         var newLine = GameObject.Instantiate(TextLinePrefab);
         newLine.text = textOutput;
         newLine.transform.SetParent(ScrollViewContent.transform, false);
-
     }
 }

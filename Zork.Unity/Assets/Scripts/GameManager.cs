@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI CurrentLocationText;
-    
+
     [SerializeField]
     private TextMeshProUGUI MovesCounterText;
 
@@ -20,17 +20,21 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private UnityOutputService OutputService;
 
+    private Game LoadedGame { get => _loadedGame; set => _loadedGame = value; }
+
+    Room previousLocation = null;
+
     void Start()
     {
-        
-        TextAsset gameTextAsset = Resources.Load<TextAsset>("Zork");
-        Game game = JsonConvert.DeserializeObject<Game>(gameTextAsset.text);
-        game.Player.LocationChanged += OnPlayerLocationChanged;
-        game.Player.MovesChanged += OnPlayerMovesChanged;
-        game.Player.ScoreChanged += OnPlayerScoreChanged;
 
-        game.Start(InputService, OutputService);
-        CurrentLocationText.text = game.Player.Location.Name;
+        TextAsset gameTextAsset = Resources.Load<TextAsset>("Zork");
+        LoadedGame = JsonConvert.DeserializeObject<Game>(gameTextAsset.text);
+        LoadedGame.Player.LocationChanged += OnPlayerLocationChanged;
+        LoadedGame.Player.MovesChanged += OnPlayerMovesChanged;
+        LoadedGame.Player.ScoreChanged += OnPlayerScoreChanged;
+
+        LoadedGame.Start(InputService, OutputService);
+        CurrentLocationText.text = LoadedGame.Player.Location.Name;
     }
 
     private void OnPlayerScoreChanged(object sender, int updatedScore)
@@ -45,6 +49,13 @@ public class GameManager : MonoBehaviour
 
     private void OnPlayerLocationChanged(object sender, Room newLocation)
     {
+        if (newLocation != previousLocation)
+        {
+            Game.Look(LoadedGame);
+            previousLocation = newLocation;
+        }
         CurrentLocationText.text = newLocation.Name;
     }
+
+    private Game _loadedGame;
 }
