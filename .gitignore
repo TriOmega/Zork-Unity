@@ -63,3 +63,5 @@ crashlytics-build.properties
 **Zork/obj/
 */bin
 */obj
+*.vsconfig
+/Zork.Unity/UserSettings/
