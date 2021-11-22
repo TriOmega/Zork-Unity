@@ -7,6 +7,8 @@ namespace Zork
     {
 
         public event EventHandler<Room> LocationChanged;
+        public event EventHandler<int> MovesChanged;
+        public event EventHandler<int> ScoreChanged;
 
         public World World { get; }
 
@@ -22,7 +24,39 @@ namespace Zork
                 if (_location != value)
                 {
                     _location = value;
-                    LocationChanged?.Invoke(this, _location);  //Come back to later and possibly add move or score or something
+                    LocationChanged?.Invoke(this, _location);
+                }
+            }
+        }
+
+        public int Moves
+        {
+            get
+            {
+                return _moves;
+            }
+            private set
+            {
+                if (_moves != value)
+                {
+                    _moves = value;
+                    MovesChanged?.Invoke(this, _moves);
+                }
+            }
+        }
+        
+        public int Score
+        {
+            get
+            {
+                return _score;
+            }
+            set
+            {
+                if (_score != value)
+                {
+                    _score = value;
+                    ScoreChanged?.Invoke(this, _score);
                 }
             }
         }
@@ -48,5 +82,7 @@ namespace Zork
         }
 
         private Room _location;
+        private int _moves;
+        private int _score;
     }
 }
