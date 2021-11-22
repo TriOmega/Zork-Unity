@@ -22,7 +22,7 @@ namespace Zork
                 if (_location != value)
                 {
                     _location = value;
-                    LocationChanged?.Invoke(this, _location);
+                    LocationChanged?.Invoke(this, _location);  //Come back to later and possibly add move or score or something
                 }
             }
         }
