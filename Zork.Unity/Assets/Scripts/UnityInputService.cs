@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
-using Zork;
 using TMPro;
+using Zork;
 
 public class UnityInputService : MonoBehaviour, IInputService
 {
