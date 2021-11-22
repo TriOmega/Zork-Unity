@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Newtonsoft.Json;
 using Zork;
@@ -24,6 +25,8 @@ public class GameManager : MonoBehaviour
 
     private Room previousLocation = null;
 
+    private float exitDelay = 5.0f;
+
     void Start()
     {
 
@@ -32,6 +35,7 @@ public class GameManager : MonoBehaviour
         LoadedGame.Player.LocationChanged += OnPlayerLocationChanged;
         LoadedGame.Player.MovesChanged += OnPlayerMovesChanged;
         LoadedGame.Player.ScoreChanged += OnPlayerScoreChanged;
+        LoadedGame.GameEnded += OnGameEnded;
 
         LoadedGame.Start(InputService, OutputService);
         OutputService.WriteLine(string.IsNullOrWhiteSpace(LoadedGame.WelcomeMessage) ? "Welcome to Zork!" : LoadedGame.WelcomeMessage);
@@ -57,6 +61,14 @@ public class GameManager : MonoBehaviour
         }
         CurrentLocationText.text = newLocation.Name;
     }
+
+    private void OnGameEnded(object sender, EventArgs e)
+    {
+        OutputService.WriteLine(string.IsNullOrWhiteSpace(LoadedGame.ExitMessage) ? "Thank you for playing!" : LoadedGame.ExitMessage);
+        Invoke("QuitGame", exitDelay); ;
+    }
+
+    private void QuitGame() => Application.Quit();
 
     private Game _loadedGame;
 }

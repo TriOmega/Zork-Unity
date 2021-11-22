@@ -11,19 +11,35 @@ namespace Zork
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public event EventHandler GameEnded;
+
         public World World { get; private set; }
 
         public string StartingLocation { get; set; }
-        
+
         public string WelcomeMessage { get; set; }
-        
+
         public string ExitMessage { get; set; }
 
         [JsonIgnore]
         public Player Player { get; private set; }
 
         [JsonIgnore]
-        public bool IsRunning { get; set; }
+        public bool IsRunning
+        {
+            get
+            {
+                return _isRunning;
+            }
+            set
+            {
+                _isRunning = value;
+                if (_isRunning == false)
+                {
+                    GameEnded?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
 
         public IInputService Input { get; set; }
 
@@ -112,5 +128,7 @@ namespace Zork
 
         [OnDeserialized]
         private void OnDeserialized(StreamingContext context) => Player = new Player(World, StartingLocation);
+    
+        private bool _isRunning;
     }
 }
