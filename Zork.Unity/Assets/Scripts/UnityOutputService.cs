@@ -15,6 +15,7 @@ public class UnityOutputService : MonoBehaviour, IOutputService
     [SerializeField]
     private RectTransform ScrollViewContent;
 
+    [SerializeField]
     private int EntriesLimit = 50;
 
     public UnityOutputService() => mEntries = new List<GameObject>();

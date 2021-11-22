@@ -117,10 +117,7 @@ namespace Zork
             game.Output.WriteLine("Score increased!");
         }
 
-        private static void Score(Game game)
-        {
-            game.Output.WriteLine($"Your score would be {game.Player.Score}, in {game.Player.Moves} move(s)");
-        }
+        private static void Score(Game game) => game.Output.WriteLine($"Your score would be {game.Player.Score}, in {game.Player.Moves} move(s)");
 
         public static void Look(Game game) => game.Output.WriteLine(game.Player.Location.Description);
 

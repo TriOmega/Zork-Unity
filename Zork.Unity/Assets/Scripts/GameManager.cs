@@ -21,11 +21,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private UnityOutputService OutputService;
 
-    private Game LoadedGame { get => _loadedGame; set => _loadedGame = value; }
+    public Game LoadedGame { get => _loadedGame; set => _loadedGame = value; }
 
-    private Room previousLocation = null;
-
-    private float exitDelay = 5.0f;
 
     void Start()
     {
@@ -54,10 +51,10 @@ public class GameManager : MonoBehaviour
 
     private void OnPlayerLocationChanged(object sender, Room newLocation)
     {
-        if (newLocation != previousLocation)
+        if (newLocation != _previousLocation)
         {
             Game.Look(LoadedGame);
-            previousLocation = newLocation;
+            _previousLocation = newLocation;
         }
         CurrentLocationText.text = newLocation.Name;
     }
@@ -65,10 +62,12 @@ public class GameManager : MonoBehaviour
     private void OnGameEnded(object sender, EventArgs e)
     {
         OutputService.WriteLine(string.IsNullOrWhiteSpace(LoadedGame.ExitMessage) ? "Thank you for playing!" : LoadedGame.ExitMessage);
-        Invoke("QuitGame", exitDelay); ;
+        Invoke("QuitGame", _exitDelay); ;
     }
 
     private void QuitGame() => Application.Quit();
 
     private Game _loadedGame;
+    private Room _previousLocation = null;
+    private float _exitDelay = 5.0f;
 }
