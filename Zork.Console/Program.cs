@@ -21,7 +21,7 @@ namespace Zork
             Room previousRoom = null;
             while (game.IsRunning)
             {
-                output.WriteLine(game.Player.Location);
+                output.WriteLine(game.Player.Location.ToString());
                 if (previousRoom != game.Player.Location)
                 {
                     Game.Look(game);

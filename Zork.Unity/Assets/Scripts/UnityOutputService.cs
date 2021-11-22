@@ -13,14 +13,16 @@ public class UnityOutputService : MonoBehaviour, IOutputService
     [SerializeField]
     private RectTransform ScrollViewContent;
 
-    public void Write(object value)
+    public void Write(string value)
     {
         throw new System.NotImplementedException();
     }
 
-    public void WriteLine(object value)
+    public void WriteLine(string textOutput)
     {
         var newLine = GameObject.Instantiate(TextLinePrefab);
+        newLine.text = textOutput;
         newLine.transform.SetParent(ScrollViewContent.transform, false);
+
     }
 }

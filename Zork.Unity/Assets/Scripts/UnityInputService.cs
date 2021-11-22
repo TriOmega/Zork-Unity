@@ -10,6 +10,11 @@ public class UnityInputService : MonoBehaviour, IInputService
 
     public event EventHandler<string> InputReceived;
 
+    private void Start()
+    {
+        InputField.ActivateInputField();
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return))
